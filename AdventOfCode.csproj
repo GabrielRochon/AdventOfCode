@@ -4,10 +4,7 @@
         <TargetFramework>net10.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <None Update="Day 1 - Secret Entrance/PasswordSequence.txt">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Day 1 - Secret Entrance/TestSequence.txt">
+        <None Update="**/*.txt">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
