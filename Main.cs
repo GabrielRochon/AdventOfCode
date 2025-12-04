@@ -17,11 +17,16 @@ internal static class EntryPoint
         InvalidAdder.AddSimpleInvalidIds("PuzzleInput.txt");
         InvalidAdder.AddComplexInvalidIds("PuzzleInput.txt");
         Console.WriteLine();
-        */
 
         // Day 3 - Lobby
         MaxJoltageAdder.SumSimpleMaxVoltageOfPowerBanks("PuzzleInput.txt", verboseMode: false);
         MaxJoltageAdder.SumComplexMaxVoltageOfPowerBanks("PuzzleInput.txt", verboseMode : false);    // To track progress
+        Console.WriteLine();
+        */
+
+        // Day 4 - Printing Department
+        ForkliftAccessibleRolls.GetForkliftAccessibleRolls("TestInput.txt");
+        ForkliftAccessibleRolls.GetForkliftAccessibleRolls("PuzzleInput.txt");
         Console.WriteLine();
     }
 }
