@@ -97,18 +97,25 @@ public static class PasswordCracker
                 char direction = line[0];
                 int distance = int.Parse(line.Substring(1));
 
-                int passedZeros = GetTimesDialPassedZero(dialPosition, distance, direction);
-                overallZeroCount += passedZeros;
-
-                if (direction == 'L')
+                // Simulate each click so we reliably count every time the dial points at 0
+                for (int i = 0; i < distance; i++)
                 {
-                    dialPosition = (dialPosition - distance + 100) % 100;
-                }
-                else if (direction == 'R')
-                {
-                    dialPosition = (dialPosition + distance) % 100;
+                    if (direction == 'L')
+                    {
+                        dialPosition = (dialPosition - 1 + 100) % 100;
+                    }
+                    else // 'R'
+                    {
+                        dialPosition = (dialPosition + 1) % 100;
+                    }
+
+                    if (dialPosition == 0)
+                    {
+                        overallZeroCount++;
+                    }
                 }
 
+                // Count if dial is exactly 0 at the end of this rotation (part 1)
                 if (dialPosition == 0)
                 {
                     exactlyZeroCount++;
@@ -132,26 +139,28 @@ public static class PasswordCracker
         {
             return 0;
         }
+        // Count times the dial points at 0 during the rotation (EXCLUDING the final click).
+        // Iterate each intermediate click to avoid off-by-one mistakes.
+        int count = 0;
+        for (int k = 1; k < distance; k++)
+        {
+            int pos;
+            if (direction == 'R')
+            {
+                pos = (startPosition + k) % 100;
+            }
+            else // 'L'
+            {
+                pos = (startPosition - k) % 100;
+                if (pos < 0) pos += 100;
+            }
 
-        if (direction == 'R')
-        {
-            return (startPosition + distance) / 100;
-        }
-        else // direction == 'L'
-        {
-            if (startPosition > 0)
+            if (pos == 0)
             {
-                // We reach 0 at distances: startPosition, startPosition + 100, startPosition + 200, ...
-                if (startPosition <= distance)
-                {
-                    return 1 + (distance - startPosition) / 100;
-                }
-                return 0;
-            }
-            else // startPosition == 0
-            {
-                return distance / 100;
+                count++;
             }
         }
+
+        return count;
     }
 }
