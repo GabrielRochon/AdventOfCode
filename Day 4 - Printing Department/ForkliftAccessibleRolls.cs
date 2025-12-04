@@ -32,9 +32,22 @@ x.@@@.@@@@
 x.x.@@@.x.
 Consider your complete diagram of the paper roll locations. How many rolls of paper can be accessed by a forklift?
 
+---
+
+PART TWO
+
+Once a roll of paper can be accessed by a forklift, it can be removed. Once a roll of paper is removed, the forklifts might be able to access more rolls of paper, which they might also be able to remove. How many total rolls of paper could the Elves remove if they keep repeating this process?
+
+...
+
+Stop once no more rolls of paper are accessible by a forklift. In this example, a total of 43 rolls of paper can be removed.
+
+Start with your original diagram. How many rolls of paper in total can be removed by the Elves and their forklifts?
+
 */
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -56,23 +69,54 @@ public static class ForkliftAccessibleRolls
         // Since the input is provided in a text file, we can build a 2D array to represent the grid.
         char[][] grid = File.ReadAllLines(filepath).Select(line => line.ToCharArray()).ToArray();
 
-        int accessibleRollCount = 0;
-        for(int i = 0; i < grid.Length; i++)
+        int accessibleRollsOnFirstPass = 0, accessibleRollsAfterAllPasses = 0, passNumber = 1;
+        bool allAccessibleRollsRemoved = false;
+        while (!allAccessibleRollsRemoved)
         {
-            for(int j = 0; j < grid[0].Length; j++)
-            {
-                if (grid[i][j] != '@')  // We only need to consider cells which are rolls of paper
-                {
-                    continue;
-                }
+            int accessibleRollCount = 0;
+            List<int[]> rollsToRemove = new List<int[]>();
 
-                if (GetAdjacentRollsCount(grid, i, j) < 4)
+            for(int i = 0; i < grid.Length; i++)
+            {
+                for(int j = 0; j < grid[0].Length; j++)
                 {
-                    accessibleRollCount++;
+                    if (grid[i][j] != '@')  // We only need to consider cells which are rolls of paper
+                    {
+                        continue;
+                    }
+
+                    if (GetAdjacentRollsCount(grid, i, j) < 4)
+                    {
+                        accessibleRollCount++;
+                        rollsToRemove.Add(new int[] { i, j });
+                    }
+                }
+            }
+
+            // Add results of this pass
+            if (passNumber == 1)
+            {
+                accessibleRollsOnFirstPass = accessibleRollCount;
+            }
+            accessibleRollsAfterAllPasses += accessibleRollCount;
+            passNumber++;
+
+            // Break of prepare for next pass
+            if (accessibleRollCount == 0)
+            {
+                allAccessibleRollsRemoved = true;
+            }
+            else
+            {
+                foreach (int[] roll in rollsToRemove)
+                {
+                    grid[roll[0]][roll[1]] = '.';   // Mark as removed
                 }
             }
         }
-        Console.WriteLine("[DAY 4] Forklift accessible rolls: " + accessibleRollCount);
+
+        Console.WriteLine("[DAY 4] Forklift accessible rolls (1st pass): " + accessibleRollsOnFirstPass);
+        Console.WriteLine("[DAY 4] Forklift accessible rolls (all passes): " + accessibleRollsAfterAllPasses);
     }
 
     public static int GetAdjacentRollsCount(char[][] grid, int row, int col)

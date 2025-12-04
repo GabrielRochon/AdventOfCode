@@ -25,7 +25,6 @@ internal static class EntryPoint
         */
 
         // Day 4 - Printing Department
-        ForkliftAccessibleRolls.GetForkliftAccessibleRolls("TestInput.txt");
         ForkliftAccessibleRolls.GetForkliftAccessibleRolls("PuzzleInput.txt");
         Console.WriteLine();
     }
