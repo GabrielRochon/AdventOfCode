@@ -31,7 +31,7 @@ internal static class EntryPoint
         // PrintDivisionLine();
 
         // Day 5 - Cafeteria
-        FreshIngredientChecker.CheckFreshIngredients("PuzzleInput.txt");
+        FreshIngredientChecker.GetFreshAvailableIngredients("PuzzleInput.txt");
     }
 
     private static void PrintHeader()
