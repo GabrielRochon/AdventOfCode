@@ -13,28 +13,30 @@ internal static class EntryPoint
         PrintHeader();
 
         // Day 1 - Secret Entrance
-        // PasswordCracker.CrackPassword("PuzzleInput.txt");
-        // PrintDivisionLine();
+        PasswordCracker.CrackPassword("PuzzleInput.txt");
+        PrintDivisionLine();
 
-        // // Day 2 - Gift Shop
-        // InvalidAdder.AddSimpleInvalidIds("PuzzleInput.txt");
-        // InvalidAdder.AddComplexInvalidIds("PuzzleInput.txt");
-        // PrintDivisionLine();
+        // Day 2 - Gift Shop
+        InvalidAdder.AddSimpleInvalidIds("PuzzleInput.txt");
+        InvalidAdder.AddComplexInvalidIds("PuzzleInput.txt");
+        PrintDivisionLine();
 
-        // // Day 3 - Lobby
-        // MaxJoltageAdder.SumSimpleMaxVoltageOfPowerBanks("PuzzleInput.txt", verboseMode: false);
-        // MaxJoltageAdder.SumComplexMaxVoltageOfPowerBanks("PuzzleInput.txt", verboseMode : false);    // To track progress
-        // PrintDivisionLine();
+        // Day 3 - Lobby
+        MaxJoltageAdder.SumSimpleMaxVoltageOfPowerBanks("PuzzleInput.txt", verboseMode: false);
+        MaxJoltageAdder.SumComplexMaxVoltageOfPowerBanks("PuzzleInput.txt", verboseMode : false);    // To track progress
+        PrintDivisionLine();
 
-        // // Day 4 - Printing Department
-        // ForkliftAccessibleRolls.GetForkliftAccessibleRolls("PuzzleInput.txt");
-        // PrintDivisionLine();
+        // Day 4 - Printing Department
+        ForkliftAccessibleRolls.GetForkliftAccessibleRolls("PuzzleInput.txt");
+        PrintDivisionLine();
 
         // Day 5 - Cafeteria
-        //FreshIngredientChecker.GetFreshAvailableIngredients("PuzzleInput.txt");
+        FreshIngredientChecker.GetFreshAvailableIngredients("PuzzleInput.txt");
+        PrintDivisionLine();
 
         // Day 6 - Trash Compactor
         CephalopodMathSolver.SumAllProblems("PuzzleInput.txt");
+        PrintDivisionLine();
     }
 
     private static void PrintHeader()

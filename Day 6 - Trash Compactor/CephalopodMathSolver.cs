@@ -137,7 +137,78 @@ public static class CephalopodMathSolver
         List<long> problemsSums = new List<long>();
         long grandTotal = 0;
 
-        // TODO: Figure it out
+        // From the last line, get the # of columns per problem
+        string lastLine = lines[lines.Length - 1];
+        List<int> columnsPerProblem = new List<int>();
+        for(int i = 0; i < lastLine.Length; i++)
+        {
+            if (lastLine[i] != ' ')
+            {
+                // If not the first problem, remove 1 space (divider between problems) to last entry
+                if (columnsPerProblem.Count > 0)
+                {
+                    columnsPerProblem[columnsPerProblem.Count - 1]--;
+                }
+                columnsPerProblem.Add(1);
+            }
+            else
+            {
+                columnsPerProblem[columnsPerProblem.Count - 1]++;
+            }
+        }
+
+        // Go one column at a time, right to left
+        int columnIndex = lastLine.Length - 1;
+        int problemNumber = operations.Length;      // -1 for every new problem
+        int columnsRemainingInCurrentProblem = 0;
+
+        while (columnIndex >= 0)
+        {
+            // If we need a new problem, we can fetch it from columnsPerProblem
+            if (columnsRemainingInCurrentProblem == 0)
+            {
+                columnsRemainingInCurrentProblem = columnsPerProblem[columnsPerProblem.Count - 1];
+                columnsPerProblem.RemoveAt(columnsPerProblem.Count - 1);
+                problemNumber--;
+
+                if (operations[problemNumber] == '+')
+                {
+                    problemsSums.Add(0);    // Add 0 as starting point for addition
+                }
+                else
+                {
+                    problemsSums.Add(1);    // Add 1 as starting point for multiplication
+                }
+            }
+
+            // Construct the number based on digits in this row
+            string numberStr = "";
+            for(int row = 0; row < lines.Length - 1; row++)
+            {
+                char currentChar = lines[row][columnIndex];
+                if (currentChar != ' ' && currentChar != '*' && currentChar != '+')
+                {
+                    numberStr += currentChar;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(numberStr))
+            {
+                problemsSums[problemsSums.Count - 1] = operations[problemNumber] == '+' 
+                    ? problemsSums[problemsSums.Count - 1] + Int64.Parse(numberStr) 
+                    : problemsSums[problemsSums.Count - 1] * Int64.Parse(numberStr);
+            }
+
+            // Prepare for next iteration
+            columnIndex--;
+            columnsRemainingInCurrentProblem--;
+
+            // If columnsRemainingInCurrentProblem is 0, skip the next column which is a divider
+            if (columnsRemainingInCurrentProblem == 0)
+            {
+                columnIndex--;
+            }
+        }
 
         // Calculate grand total
         foreach(long problemSum in problemsSums)
