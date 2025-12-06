@@ -31,7 +31,10 @@ internal static class EntryPoint
         // PrintDivisionLine();
 
         // Day 5 - Cafeteria
-        FreshIngredientChecker.GetFreshAvailableIngredients("PuzzleInput.txt");
+        //FreshIngredientChecker.GetFreshAvailableIngredients("PuzzleInput.txt");
+
+        // Day 6 - Trash Compactor
+        CephalopodMathSolver.SumAllProblems("PuzzleInput.txt");
     }
 
     private static void PrintHeader()
