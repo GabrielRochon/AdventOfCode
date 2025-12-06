@@ -25,6 +25,30 @@ Of course, the actual worksheet is much wider. You'll need to make sure to unrol
 
 Solve the problems on the math worksheet. What is the grand total found by adding together all of the answers to the individual problems?
 
+---
+
+PART TWO
+
+The big cephalopods come back to check on how things are going. When they see that your grand total doesn't match the one expected by the worksheet, they realize they forgot to explain how to read cephalopod math.
+
+Cephalopod math is written right-to-left in columns. Each number is given in its own column, with the most significant digit at the top and the least significant digit at the bottom. (Problems are still separated with a column consisting only of spaces, and the symbol at the bottom of the problem is still the operator to use.)
+
+Here's the example worksheet again:
+
+123 328  51 64 
+ 45 64  387 23 
+  6 98  215 314
+*   +   *   +  
+Reading the problems right-to-left one column at a time, the problems are now quite different:
+
+The rightmost problem is 4 + 431 + 623 = 1058
+The second problem from the right is 175 * 581 * 32 = 3253600
+The third problem from the right is 8 + 248 + 369 = 625
+Finally, the leftmost problem is 356 * 24 * 1 = 8544
+Now, the grand total is 1058 + 3253600 + 625 + 8544 = 3263827.
+
+Solve the problems on the math worksheet again. What is the grand total found by adding together all of the answers to the individual problems?
+
 */
 
 using System;
@@ -38,17 +62,32 @@ public static class CephalopodMathSolver
     public static void SumAllProblems(string fileName)
     {
         string filepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 6 - Trash Compactor/" + fileName;
-
-        long grandTotal = 0;
-
         string[] lines = File.ReadAllLines(filepath);
         
-        // First, get the operations
         string operationsLine = lines[lines.Length - 1];
         char[] operations = operationsLine.Replace(" ", "").ToCharArray();
-        List<long> problemsSums = new List<long>();
 
-        // Then, get the problems by columns
+        SumProblemsMethod1(lines, operations);   
+        SumProblemsMethod2(lines, operations);   
+    }
+
+    /*
+        Method 1 is performing the operation on the numbers of each column as they are presented.
+
+        123 328  51 64 
+        45 64  387 23 
+        6 98  215 314
+        *   +   *   +  
+
+        = (123 * 45 * 6) + (328 + 64 + 98) + (51 * 387 * 215) + (64 + 23 + 314)
+        = 33210 + 490 + 4243455 + 401 
+        = 4277556
+    */
+    private static void SumProblemsMethod1(string[] lines, char[] operations)
+    {
+        List<long> problemsSums = new List<long>();
+        long grandTotal = 0;
+
         for(int i = 0; i < lines.Length - 1; i++)
         {
             long[] currentNumbers = lines[i]
@@ -78,6 +117,34 @@ public static class CephalopodMathSolver
             grandTotal += problemSum;
         }
 
-        Console.WriteLine($"[DAY 6] Grand total of all cephalopod math problems is: {grandTotal}");
+        Console.WriteLine($"[DAY 6] Grand total of all cephalopod math problems with method 1 is: {grandTotal}");
+    }
+
+    /*
+        Method 2 is performing the operation on the numbers of each column, one column at a time, right to left
+
+        123 328  51 64 
+         45 64  387 23 
+          6 98  215 314
+        *   +   *   +  
+
+        = (4 + 431 + 623) + (175 * 581 * 32) + (8 + 248 + 369) + (356 * 24 * 1)
+        = 1058 + 3253600 + 625 + 8544
+        = 3263827
+    */
+    private static void SumProblemsMethod2(string[] lines, char[] operations)
+    {
+        List<long> problemsSums = new List<long>();
+        long grandTotal = 0;
+
+        // TODO: Figure it out
+
+        // Calculate grand total
+        foreach(long problemSum in problemsSums)
+        {
+            grandTotal += problemSum;
+        }
+
+        Console.WriteLine($"[DAY 6] Grand total of all cephalopod math problems with method 2 is: {grandTotal}");
     }
 }
