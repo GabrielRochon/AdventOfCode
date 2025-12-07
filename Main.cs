@@ -37,6 +37,10 @@ internal static class EntryPoint
         // Day 6 - Trash Compactor
         CephalopodMathSolver.SumAllProblems("PuzzleInput.txt");
         PrintDivisionLine();
+
+        // Day 7 - Laboratories
+        TachyonBeamCounter.CountTachyonBeams("PuzzleInput.txt");
+        PrintDivisionLine();
     }
 
     private static void PrintHeader()
