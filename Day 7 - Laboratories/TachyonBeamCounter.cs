@@ -47,6 +47,37 @@ To repair the teleporter, you first need to understand the beam-splitting proper
 
 Analyze your manifold diagram. How many times will the beam be split?
 
+---
+
+PART TWO
+
+With your analysis of the manifold complete, you begin fixing the teleporter. However, as you open the side of the teleporter to replace the broken manifold, you are surprised to discover that it isn't a classical tachyon manifold - it's a quantum tachyon manifold.
+
+With a quantum tachyon manifold, only a single tachyon particle is sent through the manifold. A tachyon particle takes both the left and right path of each splitter encountered.
+
+Since this is impossible, the manual recommends the many-worlds interpretation of quantum tachyon splitting: each time a particle reaches a splitter, it's actually time itself which splits. In one timeline, the particle went left, and in the other timeline, the particle went right.
+
+To fix the manifold, what you really need to know is the number of timelines active after a single particle completes all of its possible journeys through the manifold.
+
+In the above example, there are many timelines. For instance, there's the timeline where the particle always went left:
+
+.......S.......
+.......|.......
+......|^.......
+......|........
+.....|^.^......
+.....|.........
+....|^.^.^.....
+....|..........
+...|^.^...^....
+...|...........
+..|^.^...^.^...
+..|............
+.|^...^.....^..
+.|.............
+|^.^.^.^.^...^.
+|..............
+
 */
 
 using System;
@@ -90,5 +121,48 @@ public static class TachyonBeamCounter
         }
 
         Console.WriteLine("[DAY 7] Total tachyon beam splits: " + splitCount);
+    }
+
+    // Part two methods
+    public static void CountQuantumTachyonTimelines(string fileName)
+    {
+        string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Day 7 - Laboratories", fileName);
+        string[] lines = System.IO.File.ReadAllLines(filePath);
+
+        // Get starting position
+        int startColumn = lines[0].IndexOf('S');
+        int timelineCount = ExploreTimeline(lines, 1, startColumn);
+        Console.WriteLine("[DAY 7] Total quantum timelines: " + timelineCount);
+    }
+
+    // Recursive function
+    private static int ExploreTimeline(string[] lines, int row, int beamColumn)
+    {
+        // Base case
+        if (row == lines.Length - 1)
+        {
+            return 1;   // Reached the end of the manifold, this was one timeline
+        }
+
+        // Explore timelines
+        if (lines[row][beamColumn] == '^')
+        {
+            // Split beam
+            int leftTimelines = 0, rightTimelines = 0;
+            if (row - 1 >= 0)
+            {
+                leftTimelines = ExploreTimeline(lines, row + 1, beamColumn - 1);  // Go left
+            }
+            if (row + 1 < lines.Length)
+            {
+                rightTimelines = ExploreTimeline(lines, row + 1, beamColumn + 1);  // Go right
+            }
+            return leftTimelines + rightTimelines;
+        }
+        // Otherwise, go to next row
+        else
+        {
+            return ExploreTimeline(lines, row + 1, beamColumn);
+        }
     }
 }

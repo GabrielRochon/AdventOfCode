@@ -40,6 +40,7 @@ internal static class EntryPoint
 
         // Day 7 - Laboratories
         TachyonBeamCounter.CountTachyonBeams("PuzzleInput.txt");
+        TachyonBeamCounter.CountQuantumTachyonTimelines("TestInput.txt");
         PrintDivisionLine();
     }
 
