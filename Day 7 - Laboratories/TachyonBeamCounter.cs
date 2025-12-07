@@ -131,12 +131,13 @@ public static class TachyonBeamCounter
 
         // Get starting position
         int startColumn = lines[0].IndexOf('S');
-        int timelineCount = ExploreTimeline(lines, 1, startColumn);
+        var memo = new Dictionary<(int, int), long>();
+        long timelineCount = ExploreTimeline(lines, 1, startColumn, memo);
         Console.WriteLine("[DAY 7] Total quantum timelines: " + timelineCount);
     }
 
-    // Recursive function
-    private static int ExploreTimeline(string[] lines, int row, int beamColumn)
+    // Recursive function with memorization
+    private static long ExploreTimeline(string[] lines, int row, int beamColumn, Dictionary<(int, int), long> memo)
     {
         // Base case
         if (row == lines.Length - 1)
@@ -144,25 +145,34 @@ public static class TachyonBeamCounter
             return 1;   // Reached the end of the manifold, this was one timeline
         }
 
+        // Add caching to prevent recalculating the # of timelines for a set row x col
+        var key = (row, beamColumn);
+        if (memo.ContainsKey(key))
+        {
+            return memo[key];
+        }
+
         // Explore timelines
+        long result, leftTimelines = 0, rightTimelines = 0;
         if (lines[row][beamColumn] == '^')
         {
             // Split beam
-            int leftTimelines = 0, rightTimelines = 0;
-            if (row - 1 >= 0)
+            if (beamColumn - 1 >= 0)
             {
-                leftTimelines = ExploreTimeline(lines, row + 1, beamColumn - 1);  // Go left
+                leftTimelines = ExploreTimeline(lines, row + 1, beamColumn - 1, memo);  // Go left
             }
-            if (row + 1 < lines.Length)
+            if (beamColumn + 1 < lines[0].Length)
             {
-                rightTimelines = ExploreTimeline(lines, row + 1, beamColumn + 1);  // Go right
+                rightTimelines = ExploreTimeline(lines, row + 1, beamColumn + 1, memo);  // Go right
             }
-            return leftTimelines + rightTimelines;
+            result = leftTimelines + rightTimelines;
         }
         // Otherwise, go to next row
         else
         {
-            return ExploreTimeline(lines, row + 1, beamColumn);
+            result = ExploreTimeline(lines, row + 1, beamColumn, memo);
         }
+        memo[key] = result;
+        return result;
     }
 }
