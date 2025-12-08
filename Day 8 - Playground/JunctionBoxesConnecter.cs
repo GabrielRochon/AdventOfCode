@@ -46,6 +46,16 @@ After making the ten shortest connections, there are 11 circuits: one circuit wh
 
 Your list contains many junction boxes; connect together the 1000 pairs of junction boxes which are closest together. Afterward, what do you get if you multiply together the sizes of the three largest circuits?
 
+---
+
+PART TWO
+
+The Elves were right; they definitely don't have enough extension cables. You'll need to keep connecting junction boxes together until they're all in one large circuit.
+
+Continuing the above example, the first connection which causes all of the junction boxes to form a single circuit is between the junction boxes at 216,146,977 and 117,168,530. The Elves need to know how far those junction boxes are from the wall so they can pick the right extension cable; multiplying the X coordinates of those two junction boxes (216 and 117) produces 25272.
+
+Continue connecting the closest unconnected pairs of junction boxes together until they're all in the same circuit. What do you get if you multiply together the X coordinates of the last two junction boxes you need to connect?
+
 */
 
 using System;
@@ -54,6 +64,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+// Not my proudest code, but it works!
 public static class JunctionBoxesConnecter
 {
     public static void ConnectClosestJunctionBoxes(string fileName, int connectionCount, bool verboseMode = false)
@@ -81,11 +92,38 @@ public static class JunctionBoxesConnecter
 
         // Connect boxes based on distances and required connections to make (connectionCount)
         // Boxes are labeled with their line # from the input file
-       List<List<int>> connectedBoxesList = new List<List<int>>();
+        List<List<int>> connectedBoxesList = new List<List<int>>();
+        ConnectBoxes(0, connectionCount, distanceBetweenBoxes, verboseMode, lines, ref connectedBoxesList);
 
-        for(int i = 0; i < connectionCount; i++)
+        // Now that connections are made, sort by count of circuit size
+        connectedBoxesList = connectedBoxesList.OrderByDescending(x => x.Count).ToList();
+        int productResult = 1, circuitsToMultiplyAgainst = Math.Min(connectedBoxesList.Count, 3);
+        for(int i = 0; i < circuitsToMultiplyAgainst; i++)
         {
-            Tuple<int, int, long> groupToCheck = distanceBetweenBoxes[i];
+            productResult *= connectedBoxesList[i].Count;
+        }
+        Console.WriteLine($"[DAY 8] The product of the size of the {circuitsToMultiplyAgainst} largest circuits is: {productResult}");
+
+        // Part two
+        // We'll keep connecting until there's only one big circuit.
+        // We go through all possible connections until we have one big circuit. The max iteration count is "distanceBetweenBoxes.Count"
+        long productOfBoxesXCoordinatesFormingCircuit = ConnectBoxes(connectionCount, distanceBetweenBoxes.Count, distanceBetweenBoxes, verboseMode, lines, ref connectedBoxesList);
+        Console.WriteLine($"[DAY 8] The product of the last 2 boxes' X coordinates is {productOfBoxesXCoordinatesFormingCircuit}");
+    }
+
+    private static long ConnectBoxes(
+        int startingIndex, 
+        int connectionCount, 
+        List<Tuple<int, int, long>> distanceBetweenBoxes, 
+        bool verboseMode, 
+        string[] lines, 
+        ref List<List<int>> connectedBoxesList)
+    {
+        Tuple<int, int, long> groupToCheck = new Tuple<int, int, long>(0, 0, 0L);
+
+        for(int i = startingIndex; i < connectionCount; i++)
+        {
+            groupToCheck = distanceBetweenBoxes[i];
 
             // Check if the first box or second box is in one of the lists
             bool foundBox1 = false, foundBox2 = false;
@@ -129,7 +167,7 @@ public static class JunctionBoxesConnecter
                 {
                     connectedBoxesList[indexBox1].Add(box);
                 }
-                connectedBoxesList[indexBox2] = new List<int>();    // Delete
+                connectedBoxesList.RemoveAt(indexBox2);
                 if (verboseMode) Console.WriteLine($"{lines[groupToCheck.Item1]} and {lines[groupToCheck.Item2]} are in different groups, merging groups.");
             }
             // If all previous checks fail, create new group with those 2 boxes
@@ -138,15 +176,18 @@ public static class JunctionBoxesConnecter
                 connectedBoxesList.Add(new List<int> { groupToCheck.Item1, groupToCheck.Item2 });
                 if (verboseMode) Console.WriteLine($"Added a new group with {lines[groupToCheck.Item1]} and {lines[groupToCheck.Item2]}");
             }
+
+            // Check if we have one big circuit. Compute product of group's X coordinates. For part two of puzzle
+            bool areAllBoxesInTheSameCircuit = connectedBoxesList[0].Count == lines.Length;
+            if (connectedBoxesList.Count == 1 && areAllBoxesInTheSameCircuit)
+            {
+                long xCoordinateBox1 = Int32.Parse(lines[groupToCheck.Item1].Split(',')[0]);
+                long xCoordinateBox2 = Int32.Parse(lines[groupToCheck.Item2].Split(',')[0]);
+                
+                return xCoordinateBox1 * xCoordinateBox2;
+            }
         }
 
-        // Now that connections are made, sort by count of circuit size
-        connectedBoxesList = connectedBoxesList.OrderByDescending(x => x.Count).ToList();
-        int productResult = 1, circuitsToMultiplyAgainst = Math.Min(connectedBoxesList.Count, 3);
-        for(int i = 0; i < circuitsToMultiplyAgainst; i++)
-        {
-            productResult *= connectedBoxesList[i].Count;
-        }
-        Console.WriteLine($"[DAY 8] The product of the size of the {circuitsToMultiplyAgainst} largest circuits is: {productResult}");
+        return 0;
     }
 }
