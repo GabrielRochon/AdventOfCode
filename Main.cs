@@ -42,6 +42,11 @@ internal static class EntryPoint
         TachyonBeamCounter.CountTachyonBeams("PuzzleInput.txt");
         TachyonBeamCounter.CountQuantumTachyonTimelines("PuzzleInput.txt");
         PrintDivisionLine();
+
+        // Day 8 - Playground
+        // JunctionBoxesConnecter.ConnectClosestJunctionBoxes("TestInput.txt", 10);
+        JunctionBoxesConnecter.ConnectClosestJunctionBoxes("PuzzleInput.txt", 1000);
+        PrintDivisionLine();
     }
 
     private static void PrintHeader()
