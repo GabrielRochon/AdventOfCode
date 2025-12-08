@@ -59,10 +59,10 @@ public static class FreshIngredientChecker
 {
     public static void GetFreshAvailableIngredients(string fileName)
     {
-        string filepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 5 - Cafeteria/" + fileName;
+        string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 5 - Cafeteria/" + fileName;
         
         // Parsing logic: each line is a range until there's a blank line, then ingredients to check
-        string[] lines = File.ReadAllLines(filepath);
+        string[] lines = File.ReadAllLines(filePath);
 
         List<Tuple<long, long>> freshRanges = new List<Tuple<long, long>>();
         long freshAvailableIngredientsCount = 0, overallFreshIngredientsCount = 0;

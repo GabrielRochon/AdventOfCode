@@ -83,12 +83,12 @@ public static class PasswordCracker
 {
     public static void CrackPassword(string fileName)
     {
-        string filepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 1 - Secret Entrance/" + fileName;
+        string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 1 - Secret Entrance/" + fileName;
         int exactlyZeroCount = 0;
         int overallZeroCount = 0;
         try
         {
-            string[] lines = File.ReadAllLines(filepath);
+            string[] lines = File.ReadAllLines(filePath);
             int dialPosition = 50;
 
             foreach (string line in lines)

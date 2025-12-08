@@ -61,8 +61,8 @@ public static class CephalopodMathSolver
 {
     public static void SumAllProblems(string fileName)
     {
-        string filepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 6 - Trash Compactor/" + fileName;
-        string[] lines = File.ReadAllLines(filepath);
+        string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 6 - Trash Compactor/" + fileName;
+        string[] lines = File.ReadAllLines(filePath);
         
         string operationsLine = lines[lines.Length - 1];
         char[] operations = operationsLine.Replace(" ", "").ToCharArray();

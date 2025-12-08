@@ -63,11 +63,11 @@ public static class ForkliftAccessibleRolls
 
     public static void GetForkliftAccessibleRolls(string fileName)
     {
-        string filepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 4 - Printing Department/" + fileName;
+        string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 4 - Printing Department/" + fileName;
 
         // Typical BFS problem.
         // Since the input is provided in a text file, we can build a 2D array to represent the grid.
-        char[][] grid = File.ReadAllLines(filepath).Select(line => line.ToCharArray()).ToArray();
+        char[][] grid = File.ReadAllLines(filePath).Select(line => line.ToCharArray()).ToArray();
 
         int accessibleRollsOnFirstPass = 0, accessibleRollsAfterAllPasses = 0, passNumber = 1;
         bool allAccessibleRollsRemoved = false;

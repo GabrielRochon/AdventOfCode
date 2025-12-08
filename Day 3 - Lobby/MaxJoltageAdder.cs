@@ -67,9 +67,9 @@ public static class MaxJoltageAdder
     // Generalized method to sum max voltage of power banks given number of batteries to enable
     public static void SumMaxVoltageOfPowerBanks(int batteriesToEnable, string fileName, bool verboseMode)
     {
-        string filepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 3 - Lobby/" + fileName;
+        string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 3 - Lobby/" + fileName;
 
-        string[] banks = File.ReadAllLines(filepath);
+        string[] banks = File.ReadAllLines(filePath);
         double maxVoltageSum = 0;
 
         /* Manually, how I would do it:

@@ -81,11 +81,11 @@ public static class InvalidAdder
     // Core function to add invalid IDs based on max pattern length
     public static void AddInvalidIds(int maxPatternLength, string fileName)
     {
-        string filepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 2 - Gift Shop/" + fileName;
+        string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 2 - Gift Shop/" + fileName;
         long invalidIdsSum = 0;
 
         // Split the string into substrings with delimiter ',', then split each substring into start and end values with delimiter '-'
-        string[] ranges = File.ReadAllText(filepath).Split(',');
+        string[] ranges = File.ReadAllText(filePath).Split(',');
         List<Tuple<long, long>> rangeList = new List<Tuple<long, long>>();
 
         foreach(string range in ranges)

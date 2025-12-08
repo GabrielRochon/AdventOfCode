@@ -82,12 +82,14 @@ In the above example, there are many timelines. For instance, there's the timeli
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 public static class TachyonBeamCounter
 {
     public static void CountTachyonBeams(string fileName)
     {
-        string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Day 7 - Laboratories", fileName);
+        string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Day 7 - Laboratories/" + fileName;
         string[] lines = System.IO.File.ReadAllLines(filePath);
 
         HashSet<int> beamPositions = new HashSet<int>();    // Prevent duplicates
