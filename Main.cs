@@ -49,8 +49,8 @@ internal static class EntryPoint
         PrintDivisionLine();
 
         // Day 9 - Movie Theater
-        LargestRectangleIdentifier.GetLargestRectangleAreaFromTwoTiles("TestInput.txt");
-        LargestRectangleIdentifier.GetLargestRectangleAreaFromTwoTiles("PuzzleInput.txt");
+        LargestRectangleIdentifier.GetLargestRectangleAreaFromTwoTiles("TestInput.txt", verboseMode: true);
+        // LargestRectangleIdentifier.GetLargestRectangleAreaFromTwoTiles("PuzzleInput.txt", verboseMode: true);
         PrintDivisionLine();
     }
 
