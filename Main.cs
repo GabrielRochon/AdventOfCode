@@ -47,6 +47,11 @@ internal static class EntryPoint
         // JunctionBoxesConnecter.ConnectClosestJunctionBoxes("TestInput.txt", 10);
         JunctionBoxesConnecter.ConnectClosestJunctionBoxes("PuzzleInput.txt", 1000);
         PrintDivisionLine();
+
+        // Day 9 - Movie Theater
+        LargestRectangleIdentifier.GetLargestRectangleAreaFromTwoTiles("TestInput.txt");
+        LargestRectangleIdentifier.GetLargestRectangleAreaFromTwoTiles("PuzzleInput.txt");
+        PrintDivisionLine();
     }
 
     private static void PrintHeader()
