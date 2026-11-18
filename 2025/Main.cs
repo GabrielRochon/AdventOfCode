@@ -49,8 +49,13 @@ internal static class EntryPoint
         PrintDivisionLine();
 
         // Day 9 - Movie Theater
+        // Test input works, real input is too large for this approach. Needs a fix later
         LargestRectangleIdentifier.GetLargestRectangleAreaFromTwoTiles("TestInput.txt", verboseMode: true);
         // LargestRectangleIdentifier.GetLargestRectangleAreaFromTwoTiles("PuzzleInput.txt", verboseMode: true);
+        PrintDivisionLine();
+
+        // Day 10 - Factory
+        EfficienButtonPresser.CalculateFewestPressesForMachinesConfiguration("TestInput.txt");
         PrintDivisionLine();
     }
 
